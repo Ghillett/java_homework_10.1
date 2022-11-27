@@ -5,6 +5,23 @@ public class Radio {
     private int stationNumber = 0;
     private int volume = 0;
 
+    private int basicStationsQuantity = 10;
+    private int stationsQuantity = basicStationsQuantity;
+
+    public Radio() {
+    }
+
+    public Radio(int stationsQuantity) {
+        if (stationsQuantity > 0 && stationsQuantity <= 100) {
+            this.stationsQuantity = stationsQuantity;
+        } else {
+            this.stationsQuantity = basicStationsQuantity;
+        }
+    }
+
+    public int getStationsQuantity() {
+        return stationsQuantity;
+    }
 
     public int getStationNumber() {
         return stationNumber;
@@ -39,7 +56,7 @@ public class Radio {
     }
 
     public void increaseVolume() {
-        if (volume < 10) {
+        if (volume < 100) {
             volume++;
         }
     }
