@@ -109,36 +109,6 @@ public class RadioTest {
 
     @ParameterizedTest
     @CsvSource({
-            "8, 8",
-            "9, 9",
-            "10, 0"
-    })
-    public void shouldCheckMaxStationSet(int stationNumber, int expected) {
-
-        radio.setStation(stationNumber);
-
-        int actual = radio.getStationNumber();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
-            "1, 1",
-            "0, 0",
-            "-1, 0"
-    })
-    public void shouldCheckMinStationSet(int stationNumber, int expected) {
-
-        radio.setStation(stationNumber);
-
-        int actual = radio.getStationNumber();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @ParameterizedTest
-    @CsvSource({
             "7, 8",
             "8, 9",
             "9, 0"
