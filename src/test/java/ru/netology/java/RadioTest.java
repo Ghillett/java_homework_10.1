@@ -43,6 +43,66 @@ public class RadioTest {
         Assertions.assertEquals(expected, radio.getStationsQuantity());
     }
 
+    //тест сеттера станций
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1, 0",
+            "0, 0",
+            "1, 1"
+    })
+    public void shouldSetStationsDefaultMin(int stationNumber, int expected) {
+        Radio radio = new Radio();
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "8, 8",
+            "9, 9",
+            "10, 0"
+    })
+    public void shouldSetStationsDefaultMax(int stationNumber, int expected) {
+        Radio radio = new Radio();
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "50, -1, 0",
+            "50, 0, 0",
+            "50, 1, 1"
+    })
+    public void shouldSetStationsCustomMin(int stationsQuantity, int stationNumber, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "50, 49, 49",
+            "50, 50, 0",
+            "50, 51, 0"
+    })
+    public void shouldSetStationsCustomMax(int stationsQuantity, int stationNumber, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
     //тесты переключения станции
 
     Radio radio = new Radio();

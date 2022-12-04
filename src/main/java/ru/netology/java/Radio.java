@@ -33,7 +33,7 @@ public class Radio {
 
     public void setStation(int stationNumber) {
         if (stationNumber >= 0) {
-            if (stationNumber <= 9) {
+            if (stationNumber < stationsQuantity) {
                 this.stationNumber = stationNumber;
             }
         }
