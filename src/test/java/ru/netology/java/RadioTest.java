@@ -1,14 +1,63 @@
 package ru.netology.java;
 
-
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 public class RadioTest {
 
-    //использовала для проверки метод граничных значений
+    //тесты конструкторов
+
+    @Test
+    public void shouldCreateDefault() {
+        Radio radio = new Radio();
+
+        int expected = 10;
+        Assertions.assertEquals(expected, radio.getStationsQuantity());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1, 10",
+            "0, 10",
+            "1, 1"
+    })
+    public void shouldCreateMinQuantity(int stationsQuantity, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        Assertions.assertEquals(expected, radio.getStationsQuantity());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "99, 99",
+            "100, 100",
+            "101, 10"
+    })
+    public void shouldCreateMaxQuantity(int stationsQuantity, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        Assertions.assertEquals(expected, radio.getStationsQuantity());
+    }
+
+    //тест сеттера станций
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1, 0",
+            "0, 0",
+            "1, 1"
+    })
+    public void shouldSetStationsDefaultMin(int stationNumber, int expected) {
+        Radio radio = new Radio();
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
 
     @ParameterizedTest
     @CsvSource({
@@ -16,11 +65,59 @@ public class RadioTest {
             "9, 9",
             "10, 0"
     })
-    public void shouldCheckMaxStationSet(int stationNumber, int expected) {
-
+    public void shouldSetStationsDefaultMax(int stationNumber, int expected) {
         Radio radio = new Radio();
 
         radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "50, -1, 0",
+            "50, 0, 0",
+            "50, 1, 1"
+    })
+    public void shouldSetStationsCustomMin(int stationsQuantity, int stationNumber, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "50, 48, 48",
+            "50, 49, 49",
+            "50, 50, 0"
+    })
+    public void shouldSetStationsCustomMax(int stationsQuantity, int stationNumber, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        radio.setStation(stationNumber);
+
+        Assertions.assertEquals(expected, radio.getStationNumber());
+    }
+
+    //тесты переключения станции с кастомным числом станций
+
+    @ParameterizedTest
+    @CsvSource({
+            "50, 47, 48",
+            "50, 48, 49",
+            "50, 49, 0"
+    })
+    public void shouldCheckMaxStationSwitchCustom(int stationsQuantity, int stationNumber, int expected) {
+
+        Radio radio = new Radio(stationsQuantity);
+
+        radio.setStation(stationNumber);
+
+        radio.next();
 
         int actual = radio.getStationNumber();
 
@@ -29,19 +126,26 @@ public class RadioTest {
 
     @ParameterizedTest
     @CsvSource({
-            "1, 1",
-            "0, 0",
-            "-1, 0"
+            "50, 2, 1",
+            "50, 1, 0",
+            "50, 0, 49"
     })
-    public void shouldCheckMinStationSet(int stationNumber, int expected) {
+    public void shouldCheckMinStationSwitchCustom(int stationsQuantity, int stationNumber, int expected) {
 
-        Radio radio = new Radio();
+        Radio radio = new Radio(stationsQuantity);
+
         radio.setStation(stationNumber);
+
+        radio.prev();
 
         int actual = radio.getStationNumber();
 
         Assertions.assertEquals(expected, actual);
     }
+
+    //тесты переключения станции с дефолтным конструктором
+
+    Radio radio = new Radio();
 
     @ParameterizedTest
     @CsvSource({
@@ -50,8 +154,6 @@ public class RadioTest {
             "9, 0"
     })
     public void shouldCheckMaxStationSwitch(int stationNumber, int expected) {
-
-        Radio radio = new Radio();
 
         radio.setStation(stationNumber);
 
@@ -70,8 +172,6 @@ public class RadioTest {
     })
     public void shouldCheckMinStationSwitch(int stationNumber, int expected) {
 
-        Radio radio = new Radio();
-
         radio.setStation(stationNumber);
 
         radio.prev();
@@ -81,15 +181,16 @@ public class RadioTest {
         Assertions.assertEquals(expected, actual);
     }
 
+    //тесты переключения громкости
+
     @ParameterizedTest
     @CsvSource({
-            "9, 9",
-            "10, 10",
-            "11, 10"
+            "99, 99",
+            "100, 100",
+            "101, 100"
     })
     public void shouldCheckMaxVolume(int clicks, int expected) {
 
-        Radio radio = new Radio();
         for (int i = 0; i < clicks; i++) {
             radio.increaseVolume();
         }
@@ -106,8 +207,6 @@ public class RadioTest {
             "3, 0"
     })
     public void shouldCheckMinVolume(int clicks, int expected) {
-
-        Radio radio = new Radio();
 
         //поднять громкость до 2, чтобы протестировать переход вниз на громкость 1
 
