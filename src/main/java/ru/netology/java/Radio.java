@@ -40,7 +40,7 @@ public class Radio {
     }
 
     public void next() {
-        if (stationNumber < 9) {
+        if (stationNumber < stationsQuantity - 1) {
             stationNumber++;
         } else {
             stationNumber = 0;
@@ -51,7 +51,7 @@ public class Radio {
         if (stationNumber > 0) {
             stationNumber--;
         } else {
-            stationNumber = 9;
+            stationNumber = stationsQuantity - 1;
         }
     }
 
